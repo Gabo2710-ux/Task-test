@@ -1,0 +1,293 @@
+{
+  "tasks": [
+    {
+      "id": "task_1001",
+      "reference": "NET-1001",
+      "title": "Replace the warehouse router",
+      "description": "Replace the damaged router installed in warehouse area B. Confirm network connectivity after installation and attach evidence of the completed work.",
+      "status": "completed",
+      "priority": "high",
+      "location": "San Diego",
+      "due_at": "2026-07-15T16:00:00Z",
+      "created_at": "2026-07-07T08:00:00Z",
+      "updated_at": "2026-07-10T09:32:00Z",
+      "assignees": [
+        {
+          "id": "user_001",
+          "name": "Pedrinho Moreno",
+          "avatar_url": "https://example.test/images/users/user_001.jpg"
+        },
+        {
+          "id": "user_002",
+          "name": "Malquitos",
+          "avatar_url": "https://example.test/images/users/user_002.jpg"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "transition_001",
+          "previous_status": null,
+          "new_status": "pending",
+          "note": "Task created and assigned to the network team.",
+          "image_url": null,
+          "created_at": "2026-07-07T08:00:00Z",
+          "created_by": {
+            "id": "user_004",
+            "name": "Sam Wilson",
+            "avatar_url": "https://example.test/images/users/user_004.jpg"
+          }
+        },
+        {
+          "id": "transition_002",
+          "previous_status": "pending",
+          "new_status": "in_progress",
+          "note": "Replacement router collected from the equipment room.",
+          "image_url": "https://example.test/images/transitions/transition_002.jpg",
+          "created_at": "2026-07-10T09:32:00Z",
+          "created_by": {
+            "id": "user_001",
+            "name": "Alex Morgan",
+            "avatar_url": "https://example.test/images/users/user_001.jpg"
+          }
+        },
+        {
+          "id": "transition_1783711019691",
+          "previous_status": "completed",
+          "new_status": "blocked",
+          "note": "hola",
+          "image_url": null,
+          "created_at": "2026-07-10T19:16:59.691Z",
+          "created_by": {
+            "id": "user_001",
+            "name": "Alex Morgan",
+            "avatar_url": "https://example.test/images/users/user_001.jpg"
+          }
+        },
+        {
+          "id": "transition_1783711029409",
+          "previous_status": "blocked",
+          "new_status": "completed",
+          "note": "asdsad",
+          "image_url": null,
+          "created_at": "2026-07-10T19:17:09.409Z",
+          "created_by": {
+            "id": "user_001",
+            "name": "Alex Morgan",
+            "avatar_url": "https://example.test/images/users/user_001.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "task_1002",
+      "reference": "SEC-1002",
+      "title": "Inspect the loading-bay camera",
+      "description": "Check the camera connection and replace the power adapter if required.",
+      "status": "blocked",
+      "priority": "medium",
+      "location": "Loading Bay",
+      "due_at": "2026-07-18T12:00:00Z",
+      "created_at": "2026-07-07T08:00:00Z",
+      "updated_at": "2026-07-09T14:18:00Z",
+      "assignees": [
+        {
+          "id": "user_001",
+          "name": "Pedrinho Moreno",
+          "avatar_url": "https://example.test/images/users/user_001.jpg"
+        },
+        {
+          "id": "user_003",
+          "name": "Taylor Smith",
+          "avatar_url": "https://example.test/images/users/user_003.jpg"
+        }
+      ],
+      "status_history": []
+    },
+    {
+      "id": "task_1003",
+      "reference": "OPS-1003",
+      "title": "Verify temperature sensor readings",
+      "description": "Compare the sensor readings with the manual measurement log.",
+      "status": "blocked",
+      "priority": "low",
+      "location": "Cold Storage Room 2",
+      "due_at": null,
+      "created_at": "2026-07-07T08:00:00Z",
+      "updated_at": "2026-07-08T11:45:00Z",
+      "assignees": [
+        {
+          "id": "user_001",
+          "name": "Pedrinho Moreno",
+          "avatar_url": "https://example.test/images/users/user_001.jpg"
+        }
+      ],
+      "status_history": []
+    },
+    {
+      "id": "f3kwd3mQ9bs",
+      "reference": "REF-58006",
+      "title": "Hi",
+      "description": "Ola",
+      "status": "in_progress",
+      "priority": "low",
+      "location": "Naguanagua",
+      "created_at": "2026-07-10T15:10:58.006",
+      "updated_at": "2026-07-10T15:10:58.006",
+      "assignees": [
+        {
+          "id": "user_001",
+          "name": "Pedrinho Moreno",
+          "avatar_url": "https://example.test/images/users/user_001.jpg"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "transition_1783710682048",
+          "previous_status": "pending",
+          "new_status": "in_progress",
+          "note": "This task is in progress",
+          "image_url": "https://example.test/simulated_upload.jpg",
+          "created_at": "2026-07-10T19:11:22.048Z",
+          "created_by": {
+            "id": "user_001",
+            "name": "Alex Morgan",
+            "avatar_url": "https://example.test/images/users/user_001.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hOsWl-SqCHY",
+      "reference": "REF-07418",
+      "title": "check my temperature",
+      "description": "im hot 😂😂😂😂",
+      "status": "in_progress",
+      "priority": "low",
+      "location": "my house",
+      "created_at": "2026-07-10T15:20:07.418",
+      "updated_at": "2026-07-10T15:20:07.418",
+      "assignees": [
+        {
+          "id": "user_001",
+          "name": "Pedrinho Moreno",
+          "avatar_url": "https://example.test/images/users/user_001.jpg"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "transition_1783711254613",
+          "previous_status": "pending",
+          "new_status": "in_progress",
+          "note": "ya no tooy caliente 😉😉😉",
+          "image_url": "https://picsum.photos/400/300",
+          "created_at": "2026-07-10T19:20:54.613Z",
+          "created_by": {
+            "id": "user_001",
+            "name": "Alex Morgan",
+            "avatar_url": "https://example.test/images/users/user_001.jpg"
+          }
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "task_id": "task_1003",
+      "type": "text",
+      "content": "Hi",
+      "created_at": "2026-07-10T15:15:31.085",
+      "sender": {
+        "id": "user_001",
+        "name": "Alex Morgan",
+        "avatar_url": "https://example.test/images/users/user_001.jpg"
+      },
+      "id": "7JGDFqOxEUs"
+    },
+    {
+      "task_id": "task_1003",
+      "type": "text",
+      "content": "I'm heading there right now.",
+      "created_at": "2026-07-10T15:15:33.146",
+      "sender": {
+        "id": "user_003",
+        "name": "Taylor Smith",
+        "avatar_url": "https://example.test/images/users/user_003.jpg"
+      },
+      "id": "rOQgeR8H5eA"
+    },
+    {
+      "task_id": "f3kwd3mQ9bs",
+      "type": "text",
+      "content": "sexo",
+      "created_at": "2026-07-10T15:17:19.531",
+      "sender": {
+        "id": "user_001",
+        "name": "Alex Morgan",
+        "avatar_url": "https://example.test/images/users/user_001.jpg"
+      },
+      "id": "b3V9I17WDM4"
+    },
+    {
+      "task_id": "f3kwd3mQ9bs",
+      "type": "text",
+      "content": "Perfect, thanks for letting me know.",
+      "created_at": "2026-07-10T15:17:21.588",
+      "sender": {
+        "id": "user_004",
+        "name": "Sam Wilson",
+        "avatar_url": "https://example.test/images/users/user_004.jpg"
+      },
+      "id": "eTQ4tNDUBK0"
+    },
+    {
+      "task_id": "f3kwd3mQ9bs",
+      "type": "text",
+      "content": "XDDDDDD",
+      "created_at": "2026-07-10T15:17:26.003",
+      "sender": {
+        "id": "user_001",
+        "name": "Alex Morgan",
+        "avatar_url": "https://example.test/images/users/user_001.jpg"
+      },
+      "id": "dc4OkoWiKAU"
+    },
+    {
+      "task_id": "f3kwd3mQ9bs",
+      "type": "text",
+      "content": "Perfect, thanks for letting me know.",
+      "created_at": "2026-07-10T15:17:28.057",
+      "sender": {
+        "id": "user_004",
+        "name": "Sam Wilson",
+        "avatar_url": "https://example.test/images/users/user_004.jpg"
+      },
+      "id": "G7avjKIiyTc"
+    },
+    {
+      "task_id": "hOsWl-SqCHY",
+      "type": "text",
+      "content": "hello there",
+      "created_at": "2026-07-10T15:21:23.027",
+      "sender": {
+        "id": "user_001",
+        "name": "Alex Morgan",
+        "avatar_url": "https://example.test/images/users/user_001.jpg"
+      },
+      "id": "IYJNyTNuZF0"
+    },
+    {
+      "task_id": "hOsWl-SqCHY",
+      "type": "text",
+      "content": "Perfect, thanks for letting me know.",
+      "created_at": "2026-07-10T15:21:25.088",
+      "sender": {
+        "id": "user_003",
+        "name": "Taylor Smith",
+        "avatar_url": "https://example.test/images/users/user_003.jpg"
+      },
+      "id": "yLTAJfZXWpw"
+    }
+  ],
+  "status_transitions": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}
