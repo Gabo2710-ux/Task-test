@@ -155,39 +155,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "hOsWl-SqCHY",
-      "reference": "REF-07418",
-      "title": "check my temperature",
-      "description": "im hot 😂😂😂😂",
-      "status": "in_progress",
-      "priority": "low",
-      "location": "my house",
-      "created_at": "2026-07-10T15:20:07.418",
-      "updated_at": "2026-07-10T15:20:07.418",
-      "assignees": [
-        {
-          "id": "user_001",
-          "name": "Pedrinho Moreno",
-          "avatar_url": "https://example.test/images/users/user_001.jpg"
-        }
-      ],
-      "status_history": [
-        {
-          "id": "transition_1783711254613",
-          "previous_status": "pending",
-          "new_status": "in_progress",
-          "note": "ya no tooy caliente 😉😉😉",
-          "image_url": "https://picsum.photos/400/300",
-          "created_at": "2026-07-10T19:20:54.613Z",
-          "created_by": {
-            "id": "user_001",
-            "name": "Alex Morgan",
-            "avatar_url": "https://example.test/images/users/user_001.jpg"
-          }
-        }
-      ]
     }
   ],
   "messages": [
@@ -214,78 +181,6 @@
         "avatar_url": "https://example.test/images/users/user_003.jpg"
       },
       "id": "rOQgeR8H5eA"
-    },
-    {
-      "task_id": "f3kwd3mQ9bs",
-      "type": "text",
-      "content": "sexo",
-      "created_at": "2026-07-10T15:17:19.531",
-      "sender": {
-        "id": "user_001",
-        "name": "Alex Morgan",
-        "avatar_url": "https://example.test/images/users/user_001.jpg"
-      },
-      "id": "b3V9I17WDM4"
-    },
-    {
-      "task_id": "f3kwd3mQ9bs",
-      "type": "text",
-      "content": "Perfect, thanks for letting me know.",
-      "created_at": "2026-07-10T15:17:21.588",
-      "sender": {
-        "id": "user_004",
-        "name": "Sam Wilson",
-        "avatar_url": "https://example.test/images/users/user_004.jpg"
-      },
-      "id": "eTQ4tNDUBK0"
-    },
-    {
-      "task_id": "f3kwd3mQ9bs",
-      "type": "text",
-      "content": "XDDDDDD",
-      "created_at": "2026-07-10T15:17:26.003",
-      "sender": {
-        "id": "user_001",
-        "name": "Alex Morgan",
-        "avatar_url": "https://example.test/images/users/user_001.jpg"
-      },
-      "id": "dc4OkoWiKAU"
-    },
-    {
-      "task_id": "f3kwd3mQ9bs",
-      "type": "text",
-      "content": "Perfect, thanks for letting me know.",
-      "created_at": "2026-07-10T15:17:28.057",
-      "sender": {
-        "id": "user_004",
-        "name": "Sam Wilson",
-        "avatar_url": "https://example.test/images/users/user_004.jpg"
-      },
-      "id": "G7avjKIiyTc"
-    },
-    {
-      "task_id": "hOsWl-SqCHY",
-      "type": "text",
-      "content": "hello there",
-      "created_at": "2026-07-10T15:21:23.027",
-      "sender": {
-        "id": "user_001",
-        "name": "Alex Morgan",
-        "avatar_url": "https://example.test/images/users/user_001.jpg"
-      },
-      "id": "IYJNyTNuZF0"
-    },
-    {
-      "task_id": "hOsWl-SqCHY",
-      "type": "text",
-      "content": "Perfect, thanks for letting me know.",
-      "created_at": "2026-07-10T15:21:25.088",
-      "sender": {
-        "id": "user_003",
-        "name": "Taylor Smith",
-        "avatar_url": "https://example.test/images/users/user_003.jpg"
-      },
-      "id": "yLTAJfZXWpw"
     }
   ],
   "status_transitions": [],
