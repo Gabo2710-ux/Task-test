@@ -1,15 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../models/chat_message_model.dart';
+import '../../models/chat_response_model.dart';
 import '../../repositories/chat_repository.dart';
 
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   return ChatRepository();
 });
 
-// Provider para la lista de mensajes de una tarea
-final chatMessagesProvider = FutureProvider.family<List<ChatMessageModel>, String>((ref, taskId) async {
+// Provider para la lista de mensajes y participantes de una tarea
+final chatMessagesProvider = FutureProvider.family<ChatResponseModel, String>((ref, taskId) async {
   final repository = ref.watch(chatRepositoryProvider);
-  return repository.getMessages(taskId);
+  final response = await repository.getMessages(taskId);
+  
+  // Sort messages chronologically by created_at
+  response.messages.sort((a, b) => a.parsedDate.compareTo(b.parsedDate));
+  
+  return response;
 });
 
 // Provider para el envío de un nuevo mensaje
@@ -23,45 +28,15 @@ class SendMessageNotifier extends Notifier<AsyncValue<void>> {
     state = const AsyncLoading();
     try {
       final repository = ref.read(chatRepositoryProvider);
-      // You send the message
       await repository.sendMessage(taskId, content);
       ref.invalidate(chatMessagesProvider(taskId));
       state = const AsyncData(null);
-      
-      // Simulate a bot reply after 2 seconds
-      Future.delayed(const Duration(seconds: 2), () async {
-        final mockReplies = [
-          "Got it! I'll keep an eye on it.",
-          "Perfect, thanks for letting me know.",
-          "I'm heading there right now.",
-          "Do you need any help with that?",
-          "Awesome, let me check that for you.",
-          "Sounds like a plan!",
-          "I'll notify the rest of the team."
-        ];
-        mockReplies.shuffle();
-        final mockReply = mockReplies.first;
-        
-        final mockSenders = [
-          { 'id': 'user_002', 'name': 'Malquitos', 'avatar': 'https://example.test/images/users/user_002.jpg' },
-          { 'id': 'user_003', 'name': 'Taylor Smith', 'avatar': 'https://example.test/images/users/user_003.jpg' },
-          { 'id': 'user_004', 'name': 'Sam Wilson', 'avatar': 'https://example.test/images/users/user_004.jpg' }
-        ];
-        mockSenders.shuffle();
-        final sender = mockSenders.first;
-        
-        await repository.sendMessage(
-          taskId, 
-          mockReply,
-          senderId: sender['id']!,
-          senderName: sender['name']!,
-          avatarUrl: sender['avatar']!,
-        );
-        
-        // Refresh messages
+
+      // El servidor mock (Node.js) tarda 2 segundos en generar la respuesta automática.
+      // Refrescamos la lista después de 2.5 segundos para mostrar ese nuevo mensaje.
+      Future.delayed(const Duration(milliseconds: 2500), () {
         ref.invalidate(chatMessagesProvider(taskId));
       });
-      
     } catch (e, st) {
       state = AsyncError(e, st);
     }

@@ -12,7 +12,12 @@ class TaskDetailRepository {
     try {
       final response = await _dio.get(ApiEndpoints.taskDetail(taskId));
       if (response.statusCode == 200) {
-        return TaskDetailModel.fromJson(response.data);
+        if (response.data is Map<String, dynamic> && response.data.containsKey('data')) {
+          return TaskDetailModel.fromJson(response.data['data']);
+        } else {
+          // Fallback if the endpoint hasn't updated or returns direct object
+          return TaskDetailModel.fromJson(response.data);
+        }
       } else {
         throw Exception('Failed to load task detail');
       }
@@ -23,32 +28,38 @@ class TaskDetailRepository {
 
   Future<void> updateTaskStatus(String taskId, String newStatus, String note, {bool hasImage = false}) async {
     try {
-      final currentTask = await getTaskDetail(taskId);
-      final newHistory = currentTask.statusHistory.map((e) => e.toJson()).toList();
-      
-      newHistory.add({
-        "id": "transition_${DateTime.now().millisecondsSinceEpoch}",
-        "previous_status": currentTask.status,
-        "new_status": newStatus,
-        "note": note,
-        "image_url": hasImage ? "https://picsum.photos/400/300" : null,
-        "created_at": DateTime.now().toUtc().toIso8601String(),
-        "created_by": {
-          "id": "user_001",
-          "name": "Alex Morgan",
-          "avatar_url": "https://example.test/images/users/user_001.jpg"
-        }
-      });
+      final requestData = {
+        'status': newStatus,
+        'note': note.isNotEmpty ? note : null,
+      };
 
-      await _dio.patch(
-        ApiEndpoints.taskDetail(taskId),
-        data: {
-          'status': newStatus,
-          'status_history': newHistory,
-        },
+      if (hasImage) {
+        // Simulate an uploaded image URL
+        requestData['image_url'] = "https://picsum.photos/400/300";
+      }
+
+      await _dio.post(
+        '${ApiEndpoints.tasks}/$taskId/status-transitions',
+        data: requestData,
       );
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400 && e.response?.data != null) {
+        final errorData = e.response?.data['error'];
+        if (errorData != null && errorData['code'] == 'VALIDATION_ERROR') {
+          final fields = errorData['fields'] as Map<String, dynamic>?;
+          final messages = fields?.values.expand((v) => (v as List).map((s) => s.toString())).join('\n');
+          throw Exception(messages ?? errorData['message'] ?? 'Validation Error');
+        }
+      }
+      
+      // Friendly message for network/connection errors
+      if (e.type == DioExceptionType.connectionError || e.type == DioExceptionType.connectionTimeout) {
+        throw Exception('Error de conexión. Verifica tu red y el servidor.');
+      }
+      
+      throw Exception('Error updating task status: ${e.message}');
     } catch (e) {
-      throw Exception('Error updating task status: $e');
+      throw Exception('Error inesperado: $e');
     }
   }
 }

@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 
 class ApiClient {
   static final Dio _dio = Dio(BaseOptions(
-    // Reemplaza con la IP de tu máquina si usas un emulador Android (ej. 10.0.2.2)
-    // O usa localhost si estás corriendo en web/windows
-    baseUrl: 'http://localhost:3000',
+    // The base URL can be passed at compile time using:
+    // --dart-define=API_BASE_URL=http://your-ip:3000
+    baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3000'),
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
     headers: {

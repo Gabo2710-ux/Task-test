@@ -17,6 +17,15 @@ class ChatMessageModel {
     required this.sender,
   });
 
+  DateTime get parsedDate {
+    if (createdAt == null || createdAt!.isEmpty) return DateTime.fromMillisecondsSinceEpoch(0);
+    try {
+      return DateTime.parse(createdAt!);
+    } catch (_) {
+      return DateTime.fromMillisecondsSinceEpoch(0);
+    }
+  }
+
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) {
     return ChatMessageModel(
       id: json['id'] ?? '',

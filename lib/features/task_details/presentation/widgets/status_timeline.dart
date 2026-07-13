@@ -40,12 +40,14 @@ class StatusTimeline extends StatelessWidget {
       return const Text('No history available.', style: TextStyle(color: Colors.grey));
     }
 
+    final reversedHistory = history.reversed.toList();
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: history.length,
+      itemCount: reversedHistory.length,
       itemBuilder: (context, index) {
-        final transition = history[index];
+        final transition = reversedHistory[index];
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Row(
@@ -54,7 +56,7 @@ class StatusTimeline extends StatelessWidget {
               Column(
                 children: [
                   const Icon(Icons.circle, size: 12, color: Colors.blue),
-                  if (index != history.length - 1)
+                  if (index != reversedHistory.length - 1)
                     Container(width: 2, height: 50, color: Colors.grey.shade300),
                 ],
               ),

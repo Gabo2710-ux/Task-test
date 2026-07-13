@@ -1,49 +1,55 @@
 import 'package:dio/dio.dart';
 import '../../../core/api/api_client.dart';
-import '../../../core/api/api_endpoints.dart';
 import '../models/chat_message_model.dart';
+import '../models/chat_response_model.dart';
 
 class ChatRepository {
   final Dio _dio;
 
   ChatRepository({Dio? dio}) : _dio = dio ?? ApiClient.instance.dio;
 
-  Future<List<ChatMessageModel>> getMessages(String taskId) async {
+  Future<ChatResponseModel> getMessages(String taskId) async {
     try {
-      final response = await _dio.get(ApiEndpoints.taskMessages(taskId));
+      final response = await _dio.get('/api/tasks/$taskId/messages');
       if (response.statusCode == 200) {
-        final List data = response.data;
-        return data.map((e) => ChatMessageModel.fromJson(e)).toList();
+        return ChatResponseModel.fromJson(response.data);
       } else {
         throw Exception('Failed to load messages');
       }
     } catch (e) {
+      if (e is DioException && (e.type == DioExceptionType.connectionError || e.type == DioExceptionType.connectionTimeout)) {
+        throw Exception('Connection error. Check your network and the server.');
+      }
       throw Exception('Error fetching messages: $e');
     }
   }
 
-  Future<void> sendMessage(String taskId, String content, {
-    String senderId = 'user_001',
-    String senderName = 'Alex Morgan',
-    String avatarUrl = 'https://example.test/images/users/user_001.jpg',
-  }) async {
+  Future<ChatMessageModel> sendMessage(String taskId, String content) async {
     try {
-      await _dio.post(
-        '/messages',
+      final response = await _dio.post(
+        '/api/tasks/$taskId/messages',
         data: {
-          'task_id': taskId,
-          'type': 'text',
           'content': content,
-          'created_at': DateTime.now().toIso8601String(),
-          'sender': {
-             "id": senderId,
-             "name": senderName,
-             "avatar_url": avatarUrl,
-          }
         },
       );
+      return ChatMessageModel.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400 && e.response?.data != null) {
+        final errorData = e.response?.data['error'];
+        if (errorData != null && errorData['code'] == 'VALIDATION_ERROR') {
+          final fields = errorData['fields'] as Map<String, dynamic>?;
+          final messages = fields?.values.expand((v) => (v as List).map((s) => s.toString())).join('\n');
+          throw Exception(messages ?? errorData['message'] ?? 'Validation Error');
+        }
+      }
+      
+      if (e.type == DioExceptionType.connectionError || e.type == DioExceptionType.connectionTimeout) {
+        throw Exception('Connection error. Check your network and the server.');
+      }
+      
+      throw Exception('Error sending message: ${e.message}');
     } catch (e) {
-      throw Exception('Error sending message: $e');
+      throw Exception('Error inesperado: $e');
     }
   }
 }

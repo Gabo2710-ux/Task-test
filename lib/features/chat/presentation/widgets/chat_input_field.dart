@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/utils/error_formatter.dart';
 import '../providers/chat_provider.dart';
 
 class ChatInputField extends ConsumerStatefulWidget {
@@ -14,19 +15,36 @@ class ChatInputField extends ConsumerStatefulWidget {
 class _ChatInputFieldState extends ConsumerState<ChatInputField> {
   final _controller = TextEditingController();
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void _sendMessage() {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
-    ref.read(sendMessageProvider.notifier).sendMessage(widget.taskId, text).then((_) {
-      if (mounted) {
-        _controller.clear();
-      }
-    });
+    ref.read(sendMessageProvider.notifier).sendMessage(widget.taskId, text);
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(sendMessageProvider, (previous, next) {
+      if (next is AsyncData && previous is AsyncLoading) {
+        _controller.clear();
+      } else if (next is AsyncError) {
+        final errorStr = formatError(next.error);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorStr),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    });
+
     final isSending = ref.watch(sendMessageProvider) is AsyncLoading;
 
     return Padding(

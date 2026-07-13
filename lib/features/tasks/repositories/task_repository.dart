@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_endpoints.dart';
+import '../../../core/models/paginated_response.dart';
 import '../models/task_model.dart';
 
 class TaskRepository {
@@ -8,18 +9,41 @@ class TaskRepository {
 
   TaskRepository({Dio? dio}) : _dio = dio ?? ApiClient.instance.dio;
 
-  Future<List<TaskModel>> getTasks() async {
+  Future<PaginatedResponse<TaskModel>> getTasks({
+    String? search,
+    String? status,
+    int? page,
+    int? perPage,
+    CancelToken? cancelToken,
+  }) async {
     try {
-      final response = await _dio.get(ApiEndpoints.tasks);
+      final queryParams = <String, dynamic>{};
+      if (search != null && search.isNotEmpty) queryParams['search'] = search;
+      if (status != null && status.isNotEmpty) queryParams['status'] = status;
+      if (page != null) queryParams['page'] = page;
+      if (perPage != null) queryParams['per_page'] = perPage;
+
+      final response = await _dio.get(
+        ApiEndpoints.tasks,
+        queryParameters: queryParams,
+        cancelToken: cancelToken,
+      );
 
       if (response.statusCode == 200) {
-        // En json-server si devuelve un array directo
-        final List data = response.data;
-        return data.map((e) => TaskModel.fromJson(e)).toList();
+        if (response.data is! Map<String, dynamic>) {
+          throw const FormatException('Expected a JSON object with data and meta');
+        }
+        return PaginatedResponse<TaskModel>.fromJson(
+          response.data,
+          (json) => TaskModel.fromJson(json),
+        );
       } else {
         throw Exception('Failed to load tasks');
       }
     } catch (e) {
+      if (e is DioException && e.type == DioExceptionType.cancel) {
+        rethrow;
+      }
       throw Exception('Error fetching tasks: $e');
     }
   }
@@ -45,6 +69,11 @@ class TaskRepository {
             "id": "user_001",
             "name": "Pedrinho Moreno", // Current user based on db.json
             "avatar_url": "https://example.test/images/users/user_001.jpg"
+          },
+          {
+            "id": "user_003",
+            "name": "Taylor Smith",
+            "avatar_url": "https://example.test/images/users/user_003.jpg"
           }
         ]
       };

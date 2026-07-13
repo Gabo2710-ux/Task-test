@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/utils/error_formatter.dart';
 import '../../../tasks/presentation/widgets/status_badge.dart';
 import '../providers/task_detail_provider.dart';
 import '../widgets/update_status_bottom_sheet.dart';
@@ -30,7 +31,15 @@ class TaskDetailScreen extends ConsumerWidget {
       ),
       body: taskState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
+        error: (error, stack) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Error: ${formatError(error)}',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
         data: (task) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),

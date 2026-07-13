@@ -8,6 +8,7 @@ import '../providers/task_list_provider.dart';
 import '../widgets/task_list_item.dart';
 
 import '../../../../core/theme/theme_provider.dart';
+import '../../../../core/utils/error_formatter.dart';
 
 class TaskListScreen extends ConsumerWidget {
   const TaskListScreen({super.key});
@@ -21,6 +22,39 @@ class TaskListScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Tasks'),
         actions: [
+          Consumer(
+            builder: (context, ref, child) {
+              final status = ref.watch(taskStatusFilterProvider);
+              return PopupMenuButton<String>(
+                icon: const Icon(Icons.filter_list),
+                onSelected: (value) {
+                  ref.read(taskStatusFilterProvider.notifier).updateStatus(value == '' ? null : value);
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: '',
+                    child: Text('All'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'pending',
+                    child: Text('Pending'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'in_progress',
+                    child: Text('In Progress'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'completed',
+                    child: Text('Completed'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'blocked',
+                    child: Text('Blocked'),
+                  ),
+                ],
+              );
+            },
+          ),
           IconButton(
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
             onPressed: () {
@@ -33,12 +67,12 @@ class TaskListScreen extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search tasks...',
-                fillColor: Colors.white,
+                fillColor: isDark ? const Color(0xFF2C2C2C) : Colors.white,
                 filled: true,
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.search),
               ),
               onChanged: (value) {
                 ref.read(searchQueryProvider.notifier).updateSearch(value);
@@ -48,31 +82,70 @@ class TaskListScreen extends ConsumerWidget {
         ),
       ),
       body: tasksState.when(
+        skipLoadingOnReload: true,
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Error: $error'),
-              ElevatedButton(
-                onPressed: () => ref.refresh(taskListProvider),
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-        data: (tasks) {
+        error: (error, stack) {
+          // Do not show error if it's just a debounce cancellation
+          if (error.toString().contains('Cancelled')) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Error: ${formatError(error)}',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => ref.refresh(taskListProvider),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        },
+        data: (paginatedResponse) {
+          final tasks = paginatedResponse.data;
+          
           if (tasks.isEmpty) {
-            return const Center(child: Text('No tasks found'));
+            return RefreshIndicator(
+              onRefresh: () async {
+                // Wait for the provider to complete the next fetch
+                return ref.refresh(taskListProvider.future);
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: const [
+                  SizedBox(height: 200),
+                  Center(child: Text('No tasks found')),
+                ],
+              ),
+            );
           }
 
           return RefreshIndicator(
             onRefresh: () async {
-              ref.refresh(taskListProvider);
+              // Refresh and wait for future to complete
+              return ref.refresh(taskListProvider.future);
             },
             child: ListView.builder(
-              itemCount: tasks.length,
+              itemCount: tasks.length + 1,
               itemBuilder: (context, index) {
+                if (index == tasks.length) {
+                  final meta = paginatedResponse.meta;
+                  if (meta.currentPage < meta.lastPage) {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(child: Text('Load more items (Pagination UI)')),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }
+                
                 final task = tasks[index];
                 return TaskListItem(
                   task: task,
