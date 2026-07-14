@@ -1,6 +1,44 @@
 {
   "tasks": [
     {
+      "id": "task_1784037173833",
+      "reference": "REF-73833",
+      "title": "Buy a table",
+      "description": "Company table ",
+      "status": "in_progress",
+      "priority": "low",
+      "location": "Naguanagua",
+      "created_at": "2026-07-14T09:52:53.833",
+      "updated_at": "2026-07-14T13:53:34.464Z",
+      "assignees": [
+        {
+          "id": "user_001",
+          "name": "Pedrinho Moreno",
+          "avatar_url": "https://example.test/images/users/user_001.jpg"
+        },
+        {
+          "id": "user_003",
+          "name": "Taylor Smith",
+          "avatar_url": "https://example.test/images/users/user_003.jpg"
+        }
+      ],
+      "status_history": [
+        {
+          "id": "transition_1784037214464",
+          "previous_status": "pending",
+          "new_status": "in_progress",
+          "note": "This task is in progress",
+          "image_url": null,
+          "created_at": "2026-07-14T13:53:34.464Z",
+          "created_by": {
+            "id": "user_001",
+            "name": "Alex Morgan",
+            "avatar_url": "https://example.test/images/users/user_001.jpg"
+          }
+        }
+      ]
+    },
+    {
       "id": "task_1783981484278",
       "reference": "REF-84278",
       "title": "Buy a PC",
@@ -539,6 +577,30 @@
       "type": "text",
       "content": "Sounds like a plan!",
       "created_at": "2026-07-13T22:33:46.718Z",
+      "sender": {
+        "id": "user_003",
+        "name": "Taylor Smith",
+        "avatar_url": "https://example.test/images/users/user_003.jpg"
+      }
+    },
+    {
+      "id": "message_1784037198143",
+      "task_id": "task_1784037173833",
+      "type": "text",
+      "content": "Hi",
+      "created_at": "2026-07-14T13:53:18.143Z",
+      "sender": {
+        "id": "user_001",
+        "name": "Alex Morgan",
+        "avatar_url": "https://example.test/images/users/user_001.jpg"
+      }
+    },
+    {
+      "id": "message_1784037200160",
+      "task_id": "task_1784037173833",
+      "type": "text",
+      "content": "Do you need any help with that?",
+      "created_at": "2026-07-14T13:53:20.160Z",
       "sender": {
         "id": "user_003",
         "name": "Taylor Smith",

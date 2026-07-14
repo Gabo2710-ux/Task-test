@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
 class AppTheme {
   // Light Palette
-  static const Color primaryLight = Color(0xFF1E293B); // Slate 800
-  static const Color accentLight = Color(0xFF38BDF8); // Sky 400
-  static const Color backgroundLight = Color(0xFFF8FAFC); // Slate 50
-  static const Color cardLight = Colors.white;
-  static const Color textPrimaryLight = Color(0xFF0F172A);
-  static const Color textSecondaryLight = Color(0xFF64748B);
+  static const Color primaryLight = AppColors.primaryLight;
+  static const Color accentLight = AppColors.accentLight;
+  static const Color backgroundLight = AppColors.backgroundLight;
+  static const Color cardLight = AppColors.cardLight;
+  static const Color textPrimaryLight = AppColors.textPrimaryLight;
+  static const Color textSecondaryLight = AppColors.textSecondaryLight;
 
   // Dark Palette
-  static const Color primaryDark = Color(0xFF0F172A); // Slate 900
-  static const Color accentDark = Color(0xFF38BDF8);
-  static const Color backgroundDark = Color(0xFF1E293B); // Slate 800
-  static const Color cardDark = Color(0xFF334155); // Slate 700
-  static const Color textPrimaryDark = Colors.white;
-  static const Color textSecondaryDark = Color(0xFF94A3B8); // Slate 400
+  static const Color primaryDark = AppColors.primaryDark;
+  static const Color accentDark = AppColors.accentDark;
+  static const Color backgroundDark = AppColors.backgroundDark;
+  static const Color cardDark = AppColors.cardDark;
+  static const Color textPrimaryDark = AppColors.textPrimaryDark;
+  static const Color textSecondaryDark = AppColors.textSecondaryDark;
 
   static ThemeData get lightTheme {
     return ThemeData(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../providers/task_list_provider.dart';
+import '../../../../core/utils/validators.dart';
 
 class AddTaskBottomSheet extends ConsumerStatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -87,9 +88,9 @@ class _AddTaskBottomSheetState extends ConsumerState<AddTaskBottomSheet> {
                 border: OutlineInputBorder(),
               ),
               validator: (v) {
-                if (v == null || v.trim().isEmpty) return 'Please enter a title';
-                if (v.length > 50) return 'Title must be 50 characters or less';
-                return null;
+                final requiredError = Validators.requiredField(v, message: 'Please enter a title');
+                if (requiredError != null) return requiredError;
+                return Validators.maxLength(v, 50, message: 'Title must be 50 characters or less');
               },
             ),
             const SizedBox(height: 16),
@@ -103,9 +104,9 @@ class _AddTaskBottomSheetState extends ConsumerState<AddTaskBottomSheet> {
                 border: OutlineInputBorder(),
               ),
               validator: (v) {
-                if (v == null || v.trim().isEmpty) return 'Please enter a description';
-                if (v.length > 200) return 'Description must be 200 characters or less';
-                return null;
+                final requiredError = Validators.requiredField(v, message: 'Please enter a description');
+                if (requiredError != null) return requiredError;
+                return Validators.maxLength(v, 200, message: 'Description must be 200 characters or less');
               },
             ),
             const SizedBox(height: 16),
@@ -119,9 +120,9 @@ class _AddTaskBottomSheetState extends ConsumerState<AddTaskBottomSheet> {
                 prefixIcon: Icon(Icons.location_on),
               ),
               validator: (v) {
-                if (v == null || v.trim().isEmpty) return 'Please enter a location';
-                if (v.length > 100) return 'Location must be 100 characters or less';
-                return null;
+                final requiredError = Validators.requiredField(v, message: 'Please enter a location');
+                if (requiredError != null) return requiredError;
+                return Validators.maxLength(v, 100, message: 'Location must be 100 characters or less');
               },
             ),
             const SizedBox(height: 24),

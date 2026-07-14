@@ -6,6 +6,7 @@ import '../../../../core/widgets/loading_view.dart';
 import '../widgets/add_task_bottom_sheet.dart';
 import '../providers/task_list_provider.dart';
 import '../widgets/task_list_item.dart';
+import '../../../../core/widgets/empty_state_view.dart';
 
 import '../../../../core/theme/theme_provider.dart';
 import '../../../../core/utils/error_formatter.dart';
@@ -120,8 +121,12 @@ class TaskListScreen extends ConsumerWidget {
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: const [
-                  SizedBox(height: 200),
-                  Center(child: Text('No tasks found')),
+                  SizedBox(height: 100),
+                  EmptyStateView(
+                    title: 'No tasks found',
+                    message: 'Create a new task to get started.',
+                    icon: Icons.task_alt,
+                  ),
                 ],
               ),
             );
